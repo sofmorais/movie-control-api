@@ -1,27 +1,27 @@
 package com.personalproject.moviecontrol.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jdk.jshell.Snippet;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.time.Year;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "genre")
     private String genre;
+
+    @Column(name = "releaseYear")
     private int releaseYear;
 }

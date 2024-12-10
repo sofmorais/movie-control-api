@@ -2,11 +2,12 @@ package com.personalproject.moviecontrol.services;
 
 import com.personalproject.moviecontrol.dtos.ViewerDTO;
 import com.personalproject.moviecontrol.models.Movie;
-import com.personalproject.moviecontrol.models.Viewer;
 import com.personalproject.moviecontrol.models.MovieWatch;
-import com.personalproject.moviecontrol.repositories.ViewerRepository;
+import com.personalproject.moviecontrol.models.Viewer;
 import com.personalproject.moviecontrol.repositories.MovieWatchRepository;
+import com.personalproject.moviecontrol.repositories.ViewerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,12 +41,16 @@ public class ViewerService {
     }
 
     public List<Viewer> findAllViewers() {
-        return this.viewerRepository.findAll();
+        Sort sort = Sort.by("name").ascending();
+        return this.viewerRepository.findAll(sort);
+    }
+
+    public void delete(UUID viewerId) {
+        this.viewerRepository.deleteById(viewerId);
     }
 
     public Viewer convertToEntity(ViewerDTO viewerDto) {
         return Viewer.builder()
-                .id(viewerDto.getId())
                 .name(viewerDto.getName())
                 .build();
     }

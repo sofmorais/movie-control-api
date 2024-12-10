@@ -11,6 +11,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,14 +35,14 @@ public class MovieWatchService {
         return this.movieWatchRepository.save(viewing);
     }
 
-    public List<Movie> getMoviesWatchedByViewer(UUID viewerId) {
+    public List<Movie> findMoviesWatchedByViewerId(UUID viewerId) {
         return this.movieWatchRepository.findByViewerId(viewerId)
                 .stream()
                 .map(MovieWatch::getMovie)
                 .collect(Collectors.toList());
     }
 
-    public List<Viewer> getViewersWhoWatchedMovie(UUID movieId) {
+    public List<Viewer> findViewersByMovieId(UUID movieId) {
         return movieWatchRepository.findByMovieId(movieId)
                 .stream()
                 .map(MovieWatch::getViewer)
@@ -54,9 +57,9 @@ public class MovieWatchService {
                 .orElseThrow(() -> new IllegalArgumentException("Viewer not found"));
 
         return MovieWatch.builder()
-                .id(movieWatchDto.getId())
                 .movie(movie)
                 .viewer(viewer)
+                .viewingDate(new Date())
                 .build();
     }
 }

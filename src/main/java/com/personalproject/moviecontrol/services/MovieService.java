@@ -28,7 +28,7 @@ public class MovieService {
     }
 
     public List<Movie> findAllMovies() {
-        Sort sort = Sort.by("name").ascending();
+        Sort sort = Sort.by("title").ascending();
         return this.movieRepository.findAll(sort);
     }
 
@@ -38,7 +38,6 @@ public class MovieService {
 
     public Movie convertToEntity(final MovieDTO movieDto) {
         return Movie.builder()
-                .id(movieDto.getId())
                 .title(movieDto.getTitle())
                 .genre(movieDto.getGenre())
                 .releaseYear(movieDto.getReleaseYear())

@@ -1,17 +1,18 @@
 package com.personalproject.moviecontrol.models;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MovieWatch {
 
     @Id
@@ -26,5 +27,6 @@ public class MovieWatch {
     @JoinColumn(name = "viewer_id")
     private Viewer viewer;
 
-    private LocalDateTime viewingDate;
+    @Column(name = "viewing_date")
+    private Date viewingDate;
 }
