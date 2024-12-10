@@ -35,7 +35,7 @@ public class MovieService {
         this.movieRepository.deleteById(movieId);
     }
 
-    public Movie convertToEntity(final MovieDTO movieDto) {
+    public Movie convertToEntity(MovieDTO movieDto) {
         return Movie.builder()
                 .title(movieDto.getTitle())
                 .genre(movieDto.getGenre())
