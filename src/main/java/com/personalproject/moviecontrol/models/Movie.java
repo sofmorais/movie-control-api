@@ -23,7 +23,5 @@ public class Movie {
     private UUID id;
     private String title;
     private String genre;
-    private Year releaseYear;
-
-
+    private int releaseYear;
 }

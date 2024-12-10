@@ -24,13 +24,13 @@ public class MovieController {
     }
 
     @GetMapping("movie/{movieId}")
-    public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable UUID movieId) {
-        return ResponseEntity.ok(this.movieService.getMovieById(movieId));
+    public ResponseEntity<Optional<Movie>> findMovieById(@PathVariable UUID movieId) {
+        return ResponseEntity.ok(this.movieService.findMovieById(movieId));
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovie(){
-        return ResponseEntity.ok(this.movieService.getAllMovies());
+    public ResponseEntity<List<Movie>> findAllMovie(){
+        return ResponseEntity.ok(this.movieService.findAllMovies());
     }
 
     @DeleteMapping("/{movieId}")

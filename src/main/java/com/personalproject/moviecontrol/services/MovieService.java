@@ -41,7 +41,7 @@ public class MovieService {
                 .id(movieDto.getId())
                 .title(movieDto.getTitle())
                 .genre(movieDto.getGenre())
-                .releaseYear(Year.of(movieDto.getReleaseYear()))
+                .releaseYear(movieDto.getReleaseYear())
                 .build();
     }
 }
