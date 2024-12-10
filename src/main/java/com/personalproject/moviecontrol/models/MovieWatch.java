@@ -3,6 +3,7 @@ package com.personalproject.moviecontrol.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -11,17 +12,20 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Movie {
+public class MovieWatch {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "title")
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
 
-    @Column(name = "genre")
-    private String genre;
+    @ManyToOne
+    @JoinColumn(name = "viewer_id")
+    private Viewer viewer;
 
-    @Column(name = "releaseYear")
-    private int releaseYear;
+    @Column(name = "viewing_date")
+    private Date viewingDate;
 }

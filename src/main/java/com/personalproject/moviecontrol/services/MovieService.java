@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,7 +27,7 @@ public class MovieService {
     }
 
     public List<Movie> findAllMovies() {
-        Sort sort = Sort.by("name").ascending();
+        Sort sort = Sort.by("title").ascending();
         return this.movieRepository.findAll(sort);
     }
 
@@ -38,10 +37,10 @@ public class MovieService {
 
     public Movie convertToEntity(final MovieDTO movieDto) {
         return Movie.builder()
-                .id(movieDto.getId())
                 .title(movieDto.getTitle())
                 .genre(movieDto.getGenre())
-                .releaseYear(Year.of(movieDto.getReleaseYear()))
+                .releaseYear(movieDto.getReleaseYear())
                 .build();
     }
+
 }

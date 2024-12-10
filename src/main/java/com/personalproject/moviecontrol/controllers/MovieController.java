@@ -19,21 +19,22 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping
-    public ResponseEntity<Movie> create(@RequestBody MovieDTO movie) {
-        return ResponseEntity.ok(this.movieService.create(movie));
+    public ResponseEntity<Void> create(@RequestBody MovieDTO movie) {
+        this.movieService.create(movie);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("movie/{movieId}")
-    public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable UUID movieId) {
-        return ResponseEntity.ok(this.movieService.getMovieById(movieId));
+    @GetMapping(value = "/{movieId}")
+    public ResponseEntity<Optional<Movie>> findById(@PathVariable UUID movieId) {
+        return ResponseEntity.ok(this.movieService.findMovieById(movieId));
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovie(){
-        return ResponseEntity.ok(this.movieService.getAllMovies());
+    public ResponseEntity<List<Movie>> findAll(){
+        return ResponseEntity.ok(this.movieService.findAllMovies());
     }
 
-    @DeleteMapping("/{movieId}")
+    @DeleteMapping(value = "/{movieId}")
     public ResponseEntity<Void> delete(@PathVariable UUID movieId) {
         this.movieService.delete(movieId);
         return ResponseEntity.noContent().build();
