@@ -2,7 +2,6 @@ package com.personalproject.moviecontrol.controllers;
 
 import com.personalproject.moviecontrol.dtos.MovieWatchDTO;
 import com.personalproject.moviecontrol.models.Movie;
-import com.personalproject.moviecontrol.models.MovieWatch;
 import com.personalproject.moviecontrol.models.Viewer;
 import com.personalproject.moviecontrol.services.MovieWatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,23 @@ public class MovieWatchController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/{viewerId}")
-    public ResponseEntity<List<Movie>> findMoviesByViewerId(UUID viewerId) {
+    @GetMapping(value = "/{viewerId}/movies")
+    public ResponseEntity<List<Movie>> findMoviesByViewerId(@PathVariable UUID viewerId) {
         return ResponseEntity.ok(this.movieWatchService.findMoviesWatchedByViewerId(viewerId));
     }
 
-    @GetMapping(value = "/{movieId}")
-    public ResponseEntity<List<Viewer>> findViewersByMovieId(UUID movieId) {
+    @GetMapping(value = "/{movieId}/viewers")
+    public ResponseEntity<List<Viewer>> findViewersByMovieId(@PathVariable UUID movieId) {
         return ResponseEntity.ok(this.movieWatchService.findViewersByMovieId(movieId));
     }
 
+    @GetMapping("/movie/{movieId}/total-views")
+    public ResponseEntity<Integer> getTotalViews(@PathVariable UUID movieId) {
+        return ResponseEntity.ok(movieWatchService.getTotalViews(movieId));
+    }
+
+    @GetMapping("/viewer/{viewerId}/movies-watched")
+    public ResponseEntity<Integer> getMoviesWatchedCount(@PathVariable UUID viewerId) {
+        return ResponseEntity.ok(this.movieWatchService.getMoviesWatchedCount(viewerId));
+    }
 }
