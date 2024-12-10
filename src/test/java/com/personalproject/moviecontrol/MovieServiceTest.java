@@ -2,6 +2,7 @@ package com.personalproject.moviecontrol;
 
 import com.personalproject.moviecontrol.dtos.MovieDTO;
 import com.personalproject.moviecontrol.models.Movie;
+import com.personalproject.moviecontrol.models.MovieWatch;
 import com.personalproject.moviecontrol.repositories.MovieRepository;
 import com.personalproject.moviecontrol.services.MovieService;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -34,10 +36,6 @@ public class MovieServiceTest {
 
     private Movie movie;
     private MovieDTO movieDto;
-
-    @BeforeAll
-    static void init() {
-    }
 
     @BeforeEach
     public void setUp() {
@@ -109,4 +107,13 @@ public class MovieServiceTest {
 
         verify(this.movieRepository, times(1)).deleteById(movieId);
     }
+
+    @Test
+    public void convertToEntity() {
+        Movie result = this.movieService.convertToEntity(movieDto);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getTitle()).isEqualTo(movie.getTitle());
+    }
+
 }

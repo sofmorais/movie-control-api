@@ -46,7 +46,7 @@ class MovieWatchServiceTest {
     private MovieWatchDTO movieWatchDto;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         movie = new Movie();
         movie.setId(UUID.randomUUID());
 
@@ -65,7 +65,7 @@ class MovieWatchServiceTest {
     }
 
     @Test
-    void create() {
+    public void create() {
         when(this.movieRepository.findById(movieWatchDto.getMovieId())).thenReturn(Optional.of(movie));
         when(this.viewerRepository.findById(movieWatchDto.getViewerId())).thenReturn(Optional.of(viewer));
         when(this.movieWatchRepository.save(any(MovieWatch.class))).thenReturn(movieWatch);
@@ -81,7 +81,7 @@ class MovieWatchServiceTest {
     }
 
     @Test
-    void findMoviesWatchedByViewerId() {
+    public void findMoviesWatchedByViewerId() {
         UUID viewerId = viewer.getId();
         List<MovieWatch> movieWatches = List.of(movieWatch);
         when(this.movieWatchRepository.findByViewerId(viewerId)).thenReturn(movieWatches);
@@ -94,7 +94,7 @@ class MovieWatchServiceTest {
     }
 
     @Test
-    void findViewersByMovieId() {
+    public void findViewersByMovieId() {
         UUID movieId = movie.getId();
         List<MovieWatch> movieWatches = List.of(movieWatch);
         when(this.movieWatchRepository.findByMovieId(movieId)).thenReturn(movieWatches);
@@ -107,7 +107,7 @@ class MovieWatchServiceTest {
     }
 
     @Test
-    void getTotalViews() {
+    public void getTotalViews() {
         UUID movieId = movie.getId();
         when(this.movieWatchRepository.getTotalViews(movieId)).thenReturn(10);
 
@@ -118,7 +118,7 @@ class MovieWatchServiceTest {
     }
 
     @Test
-    void getMoviesWatchedCount() {
+    public void getMoviesWatchedCount() {
         UUID viewerId = viewer.getId();
         when(this.movieWatchRepository.countMoviesWatchedByViewer(viewerId)).thenReturn(5);
 
@@ -129,7 +129,7 @@ class MovieWatchServiceTest {
     }
 
     @Test
-    void convertToEntity() {
+    public void convertToEntity() {
         when(this.movieRepository.findById(movieWatchDto.getMovieId())).thenReturn(Optional.of(movie));
         when(this.viewerRepository.findById(movieWatchDto.getViewerId())).thenReturn(Optional.of(viewer));
 

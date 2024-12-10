@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -45,7 +46,7 @@ public class ViewerServiceTest {
     private UUID viewerId;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         viewerId = UUID.randomUUID();
         viewer = Viewer.builder().id(viewerId).name("John").build();
 
@@ -57,7 +58,7 @@ public class ViewerServiceTest {
     }
 
     @Test
-    void create() {
+    public void create() {
         when(this.viewerRepository.save(any(Viewer.class))).thenReturn(viewer);
 
         Viewer createdViewer = this.viewerService.create(viewerDto);
@@ -69,7 +70,7 @@ public class ViewerServiceTest {
     }
 
     @Test
-    void findViewerById() {
+    public void findViewerById() {
         when(this.viewerRepository.findById(viewerId)).thenReturn(Optional.of(viewer));
 
         Optional<Viewer> result = this.viewerService.findViewerById(viewerId);
@@ -77,12 +78,11 @@ public class ViewerServiceTest {
         assertTrue(result.isPresent());
         assertEquals(viewer.getId(), result.get().getId());
         assertEquals(viewer.getName(), result.get().getName());
-
         verify(this.viewerRepository, times(1)).findById(viewerId);
     }
 
     @Test
-    void findWatchedMoviesByViewer() {
+    public void findWatchedMoviesByViewer() {
         when(this.movieWatchRepository.findByViewerId(viewerId)).thenReturn(Arrays.asList(movieWatch));
 
         List<Movie> result = this.viewerService.findWatchedMoviesByViewer(viewerId);
@@ -91,12 +91,11 @@ public class ViewerServiceTest {
         assertEquals(1, result.size());
         assertEquals(movie.getId(), result.get(0).getId());
         assertEquals(movie.getTitle(), result.get(0).getTitle());
-
         verify(this.movieWatchRepository, times(1)).findByViewerId(viewerId);
     }
 
     @Test
-    void findAllViewers() {
+    public void findAllViewers() {
         Sort sort = Sort.by("name").ascending();
         when(this.viewerRepository.findAll(sort)).thenReturn(Arrays.asList(viewer));
 
@@ -106,16 +105,23 @@ public class ViewerServiceTest {
         assertEquals(1, result.size());
         assertEquals(viewer.getId(), result.get(0).getId());
         assertEquals(viewer.getName(), result.get(0).getName());
-
         verify(this.viewerRepository, times(1)).findAll(sort);
     }
 
     @Test
-    void delete() {
+    public void delete() {
         doNothing().when(this.viewerRepository).deleteById(viewerId);
 
         this.viewerService.delete(viewerId);
 
         verify(this.viewerRepository, times(1)).deleteById(viewerId);
+    }
+
+    @Test
+    public void convertToEntity() {
+        Viewer result = this.viewerService.convertToEntity(viewerDto);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getName()).isEqualTo(viewer.getName());
     }
 }
