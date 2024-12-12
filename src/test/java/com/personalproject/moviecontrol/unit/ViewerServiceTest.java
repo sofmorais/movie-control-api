@@ -1,10 +1,10 @@
-package com.personalproject.moviecontrol;
+package com.personalproject.moviecontrol.unit;
 
 import com.personalproject.moviecontrol.dtos.ViewerDTO;
 import com.personalproject.moviecontrol.models.Movie;
-import com.personalproject.moviecontrol.models.MovieWatch;
+import com.personalproject.moviecontrol.models.MovieViewRecord;
 import com.personalproject.moviecontrol.models.Viewer;
-import com.personalproject.moviecontrol.repositories.MovieWatchRepository;
+import com.personalproject.moviecontrol.repositories.MovieViewRecordRepository;
 import com.personalproject.moviecontrol.repositories.ViewerRepository;
 import com.personalproject.moviecontrol.services.ViewerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,27 +37,30 @@ public class ViewerServiceTest {
     private ViewerRepository viewerRepository;
 
     @Mock
-    private MovieWatchRepository movieWatchRepository;
+    private MovieViewRecordRepository movieWatchRepository;
 
     private Viewer viewer;
     private ViewerDTO viewerDto;
     private Movie movie;
-    private MovieWatch movieWatch;
+    private MovieViewRecord viewRecord;
     private UUID viewerId;
 
     @BeforeEach
     public void setUp() {
-        viewerId = UUID.randomUUID();
+        UUID viewerId = UUID.randomUUID();
         viewer = Viewer.builder().id(viewerId).name("John").build();
 
         viewerDto = new ViewerDTO();
         viewerDto.setName("John");
 
         movie = Movie.builder().id(UUID.randomUUID()).title("Shrek").build();
-        movieWatch = MovieWatch.builder().viewer(viewer).movie(movie).build();
+        viewRecord = MovieViewRecord.builder().viewer(viewer).movie(movie).build();
     }
 
     @Test
+    @DisplayName("DADO um Viewer preenchido " +
+            "QUANDO realizada a ação de criar " +
+            "ENTÃO deverá salvar o espectador com sucesso ")
     public void create() {
         when(this.viewerRepository.save(any(Viewer.class))).thenReturn(viewer);
 
@@ -70,6 +73,9 @@ public class ViewerServiceTest {
     }
 
     @Test
+    @DisplayName("DADO um Viewer " +
+            "QUANDO chamada uma busca por ID " +
+            "ENTÃO deverá retornar o espectador correspondente")
     public void findViewerById() {
         when(this.viewerRepository.findById(viewerId)).thenReturn(Optional.of(viewer));
 
@@ -82,21 +88,12 @@ public class ViewerServiceTest {
     }
 
     @Test
-    public void findWatchedMoviesByViewer() {
-        when(this.movieWatchRepository.findByViewerId(viewerId)).thenReturn(Arrays.asList(movieWatch));
-
-        List<Movie> result = this.viewerService.findWatchedMoviesByViewer(viewerId);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(movie.getId(), result.get(0).getId());
-        assertEquals(movie.getTitle(), result.get(0).getTitle());
-        verify(this.movieWatchRepository, times(1)).findByViewerId(viewerId);
-    }
-
-    @Test
+    @DisplayName("DADO uma busca por todos os viewers " +
+            "QUANDO chamada a consulta " +
+            "ENTÃO deverá retornar uma lista com todos os registros")
     public void findAllViewers() {
         Sort sort = Sort.by("name").ascending();
+
         when(this.viewerRepository.findAll(sort)).thenReturn(Arrays.asList(viewer));
 
         List<Viewer> result = this.viewerService.findAllViewers();
@@ -109,6 +106,9 @@ public class ViewerServiceTest {
     }
 
     @Test
+    @DisplayName("DADO um ID de espectador " +
+            "QUANDO chamada a ação de delete com esse ID " +
+            "ENTÃO deverá remover o espectador correspondente ")
     public void delete() {
         doNothing().when(this.viewerRepository).deleteById(viewerId);
 
@@ -118,6 +118,9 @@ public class ViewerServiceTest {
     }
 
     @Test
+    @DisplayName("DADO um ViewerDTO " +
+            "QUANDO chamada a ação para converter o DTO " +
+            "ENTÃO deverá converter o DTO para uma entidade Viewer")
     public void convertToEntity() {
         Viewer result = this.viewerService.convertToEntity(viewerDto);
 

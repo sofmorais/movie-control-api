@@ -33,12 +33,6 @@ public class ViewerService {
         return this.viewerRepository.findById(id);
     }
 
-    public List<Movie> findWatchedMoviesByViewer(UUID viewerId) {
-        return movieViewRecordRepository.findByViewerId(viewerId).stream()
-                .map(MovieViewRecord::getMovie)
-                .collect(Collectors.toList());
-    }
-
     public List<Viewer> findAllViewers() {
         Sort sort = Sort.by("name").ascending();
         return this.viewerRepository.findAll(sort);

@@ -1,11 +1,9 @@
-package com.personalproject.moviecontrol;
+package com.personalproject.moviecontrol.unit;
 
 import com.personalproject.moviecontrol.dtos.MovieDTO;
 import com.personalproject.moviecontrol.models.Movie;
-import com.personalproject.moviecontrol.models.MovieWatch;
 import com.personalproject.moviecontrol.repositories.MovieRepository;
 import com.personalproject.moviecontrol.services.MovieService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,20 +50,25 @@ public class MovieServiceTest {
     }
 
     @Test
+    @DisplayName("DADO um Movie preenchido " +
+            "QUANDO realizada a ação de criar " +
+            "ENTÃO deverá realizar a ação com sucesso ")
     public void create() {
-
         when(this.movieRepository.save(any(Movie.class))).thenReturn(movie);
 
-        Movie createdMovie = this.movieService.create(movieDto);
+        Movie result = this.movieService.create(movieDto);
 
-        assertNotNull(createdMovie);
-        assertEquals("Inception", createdMovie.getTitle());
+        assertNotNull(result);
+        assertEquals("Inception", result.getTitle());
 
         verify(this.movieRepository, times(1)).save(any(Movie.class));
         verifyNoMoreInteractions(this.movieRepository);
     }
 
     @Test
+    @DisplayName("DADO um Movie " +
+            "QUANDO chamada uma busca por ID " +
+            "ENTÃO deverá retornar o filme correspondente")
     public void findMovieById() {
         Movie movie = new Movie();
         movie.setId(UUID.randomUUID());
@@ -81,6 +84,9 @@ public class MovieServiceTest {
     }
 
     @Test
+    @DisplayName("DADO uma busca por todos os filmes " +
+            "QUANDO chamada a consulta " +
+            "ENTÃO deverá retornar uma lista com todos os registros")
     public void findAllMovies() {
         Movie movie1 = new Movie();
         movie1.setTitle("Inception");
@@ -98,6 +104,9 @@ public class MovieServiceTest {
     }
 
     @Test
+    @DisplayName("DADO um ID de filme " +
+            "QUANDO chamada a ação de delete com esse ID " +
+            "ENTÃO deverá remover o filme correspondente ")
     public void delete() {
         UUID movieId = UUID.randomUUID();
 
@@ -109,6 +118,9 @@ public class MovieServiceTest {
     }
 
     @Test
+    @DisplayName("DADO um MovieDTO " +
+            "QUANDO chamada a ação para converter o DTO " +
+            "ENTÃO deverá converter o DTO para uma entidade Movie")
     public void convertToEntity() {
         Movie result = this.movieService.convertToEntity(movieDto);
 

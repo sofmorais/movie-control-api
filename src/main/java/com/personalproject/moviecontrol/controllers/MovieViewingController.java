@@ -3,7 +3,7 @@ package com.personalproject.moviecontrol.controllers;
 import com.personalproject.moviecontrol.dtos.MovieViewRecordDTO;
 import com.personalproject.moviecontrol.models.Movie;
 import com.personalproject.moviecontrol.models.Viewer;
-import com.personalproject.moviecontrol.services.MovieWatchService;
+import com.personalproject.moviecontrol.services.MovieViewingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -22,7 +22,7 @@ import java.util.UUID;
 public class MovieViewingController {
 
     @Autowired
-    private MovieWatchService movieWatchService;
+    private MovieViewingService movieViewingService;
 
     @Operation(summary = "Cria uma nova visualização de filme",
             description = "Esse método cria uma nova visualização de filme. Envie um objeto `MovieViewRecordDTO` válido no corpo da requisição (JSON) para registrar a visualização.", method = "POST")
@@ -32,7 +32,7 @@ public class MovieViewingController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody MovieViewRecordDTO viewRecordDto) {
-        this.movieWatchService.create(viewRecordDto);
+        this.movieViewingService.create(viewRecordDto);
         return ResponseEntity.noContent().build();
     }
 
@@ -45,7 +45,7 @@ public class MovieViewingController {
     })
     @GetMapping(value = "/{viewerId}/movies")
     public ResponseEntity<List<Movie>> findMoviesByViewerId(@PathVariable UUID viewerId) {
-        return ResponseEntity.ok(this.movieWatchService.findMoviesWatchedByViewerId(viewerId));
+        return ResponseEntity.ok(this.movieViewingService.findMoviesWatchedByViewerId(viewerId));
     }
 
     @Operation(summary = "Retorna os espectadores que assistiram a um filme",
@@ -57,7 +57,7 @@ public class MovieViewingController {
     })
     @GetMapping(value = "/{movieId}/viewers")
     public ResponseEntity<List<Viewer>> findViewersByMovieId(@PathVariable UUID movieId) {
-        return ResponseEntity.ok(this.movieWatchService.findViewersByMovieId(movieId));
+        return ResponseEntity.ok(this.movieViewingService.findViewersByMovieId(movieId));
     }
 
     @Operation(summary = "Retorna o total de visualizações de um filme",
@@ -69,7 +69,7 @@ public class MovieViewingController {
     })
     @GetMapping("/movie/{movieId}/total-views")
     public ResponseEntity<Integer> getTotalViews(@PathVariable UUID movieId) {
-        return ResponseEntity.ok(movieWatchService.getTotalViews(movieId));
+        return ResponseEntity.ok(movieViewingService.getTotalViews(movieId));
     }
 
     @Operation(summary = "Retorna o total de filmes assistidos por um espectador",
@@ -81,6 +81,6 @@ public class MovieViewingController {
     })
     @GetMapping("/viewer/{viewerId}/total-movies-watched")
     public ResponseEntity<Integer> getMoviesWatchedCount(@PathVariable UUID viewerId) {
-        return ResponseEntity.ok(this.movieWatchService.getMoviesWatchedCount(viewerId));
+        return ResponseEntity.ok(this.movieViewingService.getMoviesWatchedCount(viewerId));
     }
 }
