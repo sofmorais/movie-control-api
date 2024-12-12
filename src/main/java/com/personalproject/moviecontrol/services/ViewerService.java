@@ -2,9 +2,9 @@ package com.personalproject.moviecontrol.services;
 
 import com.personalproject.moviecontrol.dtos.ViewerDTO;
 import com.personalproject.moviecontrol.models.Movie;
-import com.personalproject.moviecontrol.models.MovieWatch;
+import com.personalproject.moviecontrol.models.MovieViewRecord;
 import com.personalproject.moviecontrol.models.Viewer;
-import com.personalproject.moviecontrol.repositories.MovieWatchRepository;
+import com.personalproject.moviecontrol.repositories.MovieViewRecordRepository;
 import com.personalproject.moviecontrol.repositories.ViewerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,7 +22,7 @@ public class ViewerService {
     private ViewerRepository viewerRepository;
 
     @Autowired
-    private MovieWatchRepository movieWatchRepository;
+    private MovieViewRecordRepository movieViewRecordRepository;
 
     public Viewer create(ViewerDTO viewerDto) {
         Viewer viewer = this.convertToEntity(viewerDto);
@@ -34,8 +34,8 @@ public class ViewerService {
     }
 
     public List<Movie> findWatchedMoviesByViewer(UUID viewerId) {
-        return movieWatchRepository.findByViewerId(viewerId).stream()
-                .map(MovieWatch::getMovie)
+        return movieViewRecordRepository.findByViewerId(viewerId).stream()
+                .map(MovieViewRecord::getMovie)
                 .collect(Collectors.toList());
     }
 
