@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieWatch {
+public class MovieViewRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
