@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class MovieWatchDTO {
+public class MovieViewRecordDTO {
     private UUID movieId;
     private UUID viewerId;
 }
