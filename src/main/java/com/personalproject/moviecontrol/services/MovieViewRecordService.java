@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class MovieWatchService {
+public class MovieViewRecordService {
 
     @Autowired
     private MovieViewRecordRepository movieViewRecordRepository;
