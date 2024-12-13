@@ -3,7 +3,6 @@ package com.personalproject.moviecontrol.controllers;
 import com.personalproject.moviecontrol.dtos.MovieDTO;
 import com.personalproject.moviecontrol.models.Movie;
 import com.personalproject.moviecontrol.services.MovieService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,7 +38,7 @@ public class MovieController {
     }
 
     @Operation(summary = "Retorna um filme por ID",
-        description = "Esse método retorna um filme utilizando o `movieId` como parâmetro", method = "GET")
+            description = "Esse método retorna um filme utilizando o `movieId` como parâmetro", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Filme não encontrado"),
@@ -51,24 +50,24 @@ public class MovieController {
     }
 
     @Operation(summary = "Retorna todos os filmes cadastrados",
-        description = "Esse método recupera uma lista com todos os filmes", method = "GET")
+            description = "Esse método recupera uma lista com todos os filmes", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar a busca de dados")
     })
     @GetMapping
-    public ResponseEntity<List<Movie>> findAll(){
+    public ResponseEntity<List<Movie>> findAll() {
         return ResponseEntity.ok(this.movieService.findAllMovies());
     }
 
     @Operation(summary = "Apaga um filme",
-        description = "Esse método remove um filme utilizando o `movieId` como parâmetro.", method = "DELETE")
+            description = "Esse método remove um filme utilizando o `movieId` como parâmetro.", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Filme removido com sucesso"),
             @ApiResponse(responseCode = "404", description = "Filme não encontrado")
     })
     @DeleteMapping(value = "/{movieId}")
-    public ResponseEntity<Void> delete(@PathVariable UUID movieId) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID movieId) {
         this.movieService.delete(movieId);
         return ResponseEntity.noContent().build();
     }
