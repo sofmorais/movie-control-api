@@ -1,11 +1,11 @@
 package com.personalproject.moviecontrol.services;
 
-import com.personalproject.moviecontrol.dtos.MovieWatchDTO;
+import com.personalproject.moviecontrol.dtos.MovieViewRecordDTO;
 import com.personalproject.moviecontrol.models.Movie;
-import com.personalproject.moviecontrol.models.MovieWatch;
+import com.personalproject.moviecontrol.models.MovieViewRecord;
 import com.personalproject.moviecontrol.models.Viewer;
 import com.personalproject.moviecontrol.repositories.MovieRepository;
-import com.personalproject.moviecontrol.repositories.MovieWatchRepository;
+import com.personalproject.moviecontrol.repositories.MovieViewRecordRepository;
 import com.personalproject.moviecontrol.repositories.ViewerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class MovieWatchService {
+public class MovieViewRecordService {
 
     @Autowired
-    private MovieWatchRepository movieWatchRepository;
+    private MovieViewRecordRepository movieViewRecordRepository;
 
     @Autowired
     private ViewerRepository viewerRepository;
@@ -27,41 +27,41 @@ public class MovieWatchService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public MovieWatch create(MovieWatchDTO movieWatchDto) {
-        MovieWatch viewing = this.convertToEntity(movieWatchDto);
-        return this.movieWatchRepository.save(viewing);
+    public MovieViewRecord create(MovieViewRecordDTO viewRecordDto) {
+        MovieViewRecord viewing = this.convertToEntity(viewRecordDto);
+        return this.movieViewRecordRepository.save(viewing);
     }
 
     public List<Movie> findMoviesWatchedByViewerId(UUID viewerId) {
-        return this.movieWatchRepository.findByViewerId(viewerId)
+        return this.movieViewRecordRepository.findByViewerId(viewerId)
                 .stream()
-                .map(MovieWatch::getMovie)
+                .map(MovieViewRecord::getMovie)
                 .toList();
     }
 
     public List<Viewer> findViewersByMovieId(UUID movieId) {
-        return this.movieWatchRepository.findByMovieId(movieId)
+        return this.movieViewRecordRepository.findByMovieId(movieId)
                 .stream()
-                .map(MovieWatch::getViewer)
+                .map(MovieViewRecord::getViewer)
                 .toList();
     }
 
     public int getTotalViews(UUID movieId) {
-        return this.movieWatchRepository.getTotalViews(movieId);
+        return this.movieViewRecordRepository.getTotalViews(movieId);
     }
 
     public int getMoviesWatchedCount(UUID viewerId) {
-        return this.movieWatchRepository.countMoviesWatchedByViewer(viewerId);
+        return this.movieViewRecordRepository.countMoviesWatchedByViewer(viewerId);
     }
 
     @Transactional
-    public MovieWatch convertToEntity(MovieWatchDTO movieWatchDto) {
-        Movie movie = this.movieRepository.findById(movieWatchDto.getMovieId())
+    public MovieViewRecord convertToEntity(MovieViewRecordDTO movieViewRecordDto) {
+        Movie movie = this.movieRepository.findById(movieViewRecordDto.getMovieId())
                 .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
-        Viewer viewer = this.viewerRepository.findById(movieWatchDto.getViewerId())
+        Viewer viewer = this.viewerRepository.findById(movieViewRecordDto.getViewerId())
                 .orElseThrow(() -> new IllegalArgumentException("Viewer not found"));
 
-        return MovieWatch.builder()
+        return MovieViewRecord.builder()
                 .movie(movie)
                 .viewer(viewer)
                 .viewingDate(new Date())
