@@ -1,0 +1,3 @@
+ALTER TABLE movie ADD COLUMN available BOOLEAN DEFAULT TRUE;
+
+ALTER TABLE movie ADD COLUMN unavailable_since TIMESTAMP;

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/movie-viewing")
+@RequestMapping("/api/v1/movie-view-record")
 @Tag(name = "Controle de Visualizações de Filmes", description = "Endpoints para gerenciar as visualizações")
 public class MovieViewRecordController {
 

@@ -6,6 +6,7 @@ import com.personalproject.moviecontrol.models.MovieViewRecord;
 import com.personalproject.moviecontrol.models.Viewer;
 import com.personalproject.moviecontrol.repositories.MovieViewRecordRepository;
 import com.personalproject.moviecontrol.repositories.ViewerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -44,13 +45,26 @@ public class ViewerService {
         return this.viewerRepository.findAll(sort);
     }
 
-    public void delete(UUID viewerId) {
-        this.viewerRepository.deleteById(viewerId);
+    public List<Viewer> getEspectadoresAtivos() {
+        return this.viewerRepository.findByActiveTrue();
+    }
+
+    public List<Viewer> getEspectadoresInativos() {
+        return this.viewerRepository.findByActiveFalse();
+    }
+
+    public void markAsUnavailable(UUID viewerId) {
+        Viewer viewer = this.viewerRepository.findById(viewerId)
+                .orElseThrow(() -> new EntityNotFoundException("Espectador não encontrado"));
+
+        viewer.setActive(false);
+        this.viewerRepository.save(viewer);
     }
 
     public Viewer convertToEntity(ViewerDTO viewerDto) {
         return Viewer.builder()
                 .name(viewerDto.getName())
+                .active(viewerDto.getActive())
                 .build();
     }
 }
