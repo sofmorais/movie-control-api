@@ -77,21 +77,21 @@ Pode ser acessada no [link](https://documenter.getpostman.com/view/21857150/2sAY
 ## Tecnologias utilizadas
 
 #### Desenvolvimento
-Java 17
-Spring Boot
-Lombok
+- Java 17
+- Spring Boot
+- Lombok
 
 #### Banco de dados
-PostgreSQL
-Flyway 
+- PostgreSQL
+- Flyway 
 
 #### Teste de endpoints e documentação
-Springdoc/Swagger
-Postman
+- Springdoc/Swagger
+- Postman
 
 #### Testes unitários
-jUnit 5
-Mockito
+- jUnit 5
+- Mockito
 
 #### Gerenciamento de dependências e build
-Maven: Ferramenta de build e gerenciamento de dependências utilizada no projeto
+- Maven: Ferramenta de build e gerenciamento de dependências utilizada no projeto
