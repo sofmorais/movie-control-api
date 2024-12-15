@@ -3,6 +3,7 @@ package com.personalproject.moviecontrol.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -24,4 +25,10 @@ public class Movie {
 
     @Column(name = "releaseYear")
     private int releaseYear;
+
+    @Column(name = "available")
+    private Boolean available;
+
+    @Column(name = "unavailable_since", nullable = true)
+    private LocalDate unavailableSince;
 }

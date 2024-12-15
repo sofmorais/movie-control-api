@@ -16,5 +16,9 @@ public class Viewer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "active")
+    private Boolean active;
 }

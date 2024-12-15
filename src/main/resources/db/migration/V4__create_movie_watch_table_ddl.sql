@@ -3,6 +3,6 @@ CREATE TABLE movie_watch (
     movie_id uuid NOT NULL,
     viewer_id uuid NOT NULL,
     viewing_date TIMESTAMPTZ NOT NULL DEFAULT now(),
-    CONSTRAINT fk_movie FOREIGN KEY(movie_id) REFERENCES movie(id),
-    CONSTRAINT fk_viewer FOREIGN KEY(viewer_id) REFERENCES viewer(id)
+    CONSTRAINT fk_movie_id FOREIGN KEY(movie_id) REFERENCES Movie(id),
+    CONSTRAINT fk_viewer_id FOREIGN KEY(viewer_id) REFERENCES Viewer(id)
 );

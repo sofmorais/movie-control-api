@@ -59,15 +59,37 @@ public class ViewerController {
         return ResponseEntity.ok(this.viewerService.findAllViewers());
     }
 
-    @Operation(summary = "Apaga um espectador",
-            description = "Esse método remove um espectador utilizando o `viewerId` como parâmetro.", method = "DELETE")
+    @Operation(summary = "Retorna todos os espectadores ativos",
+            description = "Esse método recupera uma lista com todos os espectadores com status ativo.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Espectador removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Espectador não encontrado com o ID fornecido")
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar a busca de dados")
     })
-    @DeleteMapping
-    public ResponseEntity<Void> delete(UUID viewerId) {
-        this.viewerService.delete(viewerId);
+    @GetMapping("/actives")
+    public ResponseEntity<List<Viewer>> getEspectadoresAtivos() {
+        return ResponseEntity.ok(this.viewerService.getEspectadoresAtivos());
+    }
+
+    @Operation(summary = "Retorna todos os espectadores inativos",
+            description = "Esse método recupera uma lista com todos os espectadores com status inativos.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar a busca de dados")
+    })
+    @GetMapping("/inactives")
+    public ResponseEntity<List<Viewer>> getEspectadoresInativos() {
+        return ResponseEntity.ok(this.viewerService.getEspectadoresInativos());
+    }
+
+    @Operation(summary = "Marca um espectador como inativo",
+            description = "Esse método marca um espectador como inativo utilizando o `viewerId` como parâmetro.", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Registro realizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Espectador não encontrado")
+    })
+    @PutMapping(value = "/{viewerId}")
+    public ResponseEntity<Void> markAsInactive(@PathVariable UUID viewerId) {
+        this.viewerService.markAsUnavailable(viewerId);
         return ResponseEntity.noContent().build();
     }
 }
